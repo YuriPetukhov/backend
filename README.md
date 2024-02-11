@@ -95,18 +95,18 @@ return userAuthentication;
 #### 2. Класс с реализацией интерфейса UserDetailsService из Spring Security для загрузки пользовательских данных из базы данных PostgreSQL по их электронной почте при аутентификации пользователей:
 
 ```java
-@Slf4j
-@Service
-@RequiredArgsConstructor
-public class PostgresUserDetailsService implements UserDetailsService {
-
-    private final JdbcTemplate jdbcTemplate;
-
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+@Override
+public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         log.info("Получаем пользователя из базы по его {}", email);
-        String sql = "SELECT u.email, a.password_hash, u.role FROM users u JOIN authentications a ON u.id = a.id WHERE u.email = ?";
-        AtomicReference<UserDetails> userDetails = new AtomicReference<>();
+        return userRepository.findUserByEmail(email)
+        .map(user -> User.builder()
+        .username(user.getEmail())
+        .password(user.getUserAuthentication().getPasswordHash())
+        .roles(user.getRole().name())
+        .build()
+        )
+        .orElseThrow(() -> new UsernameNotFoundException("Пользователь не найден"));
+        }
 ```
 
 ## 7. Лицензия 
