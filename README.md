@@ -84,13 +84,14 @@ BackEnd сайта по продаже товаров
 #### 1. Генерация случайных данных с использованием Faker:
 
 ```java
-public static UserAuthentication generateRandomUserAuthentication() {
-Faker faker = new Faker();
-UserAuthentication userAuthentication = new UserAuthentication();
-userAuthentication.setPasswordHash(faker.internet().password());
-userAuthentication.setId(1);
-return userAuthentication;
-}
+public static Ad randomTestDataAd() {
+        Ad ad = new Ad();
+        Faker faker = new Faker();
+        ad.setPk(Math.toIntExact(faker.number().randomNumber()));
+        ad.setImage(generateRandomImage());
+        ad.setTitle(faker.lorem().sentence());
+        return ad;
+        }
 ```
 #### 2. Класс с реализацией интерфейса UserDetailsService из Spring Security для загрузки пользовательских данных из базы данных PostgreSQL по их электронной почте при аутентификации пользователей:
 
