@@ -2,12 +2,11 @@ package ru.skypro.homework.service;
 
 import org.springframework.lang.Nullable;
 import org.springframework.web.multipart.MultipartFile;
+import ru.skypro.homework.dto.ads.AdDTO;
 import ru.skypro.homework.dto.ads.Ads;
 import ru.skypro.homework.dto.ads.CreateOrUpdateAd;
 import ru.skypro.homework.dto.ads.ExtendedAd;
 import ru.skypro.homework.entity.Ad;
-
-import java.util.List;
 
 /**
  * Интерфейс для работы с объявлениями.
@@ -35,7 +34,7 @@ public interface AdService {
      * Получает информацию об объявлении по его идентификатору.
      *
      * @param id Идентификатор объявления.
-     * @return Объект Ad, содержащий информацию об объявлении.
+     * @return Объект AdDTO, содержащий информацию об объявлении.
      */
     @Nullable
     ExtendedAd getAdInfo(Integer id);
@@ -56,13 +55,13 @@ public interface AdService {
      * @param id       Идентификатор обновляемого объявления.
      * @return Обновленное объявление.
      */
-    ru.skypro.homework.dto.ads.Ad updateAd(CreateOrUpdateAd createOrUpdateAd, Integer id);
+    AdDTO updateAd(CreateOrUpdateAd createOrUpdateAd, Integer id);
 
     /**
      * Находит объявление по его идентификатору.
      *
      * @param id Идентификатор объявления.
-     * @return Объект Ad, представляющий найденное объявление.
+     * @return Объект AdDTO, представляющий найденное объявление.
      */
     @Nullable
     Ad findAdById(Integer id);

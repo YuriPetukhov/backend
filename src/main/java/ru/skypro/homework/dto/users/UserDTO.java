@@ -7,7 +7,7 @@ import ru.skypro.homework.enums.Role;
  * Класс DTO для пользователя.
  */
 @Data
-public class User {
+public class UserDTO {
     /**
      * Уникальный идентификатор пользователя.
      */

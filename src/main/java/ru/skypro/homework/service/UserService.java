@@ -2,7 +2,7 @@ package ru.skypro.homework.service;
 
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.users.UpdateUser;
-import ru.skypro.homework.entity.Image;
+import ru.skypro.homework.dto.users.UserDTO;
 import ru.skypro.homework.entity.User;
 
 /**
@@ -13,27 +13,27 @@ public interface UserService {
     /**
      * Сохраняет пользователя.
      *
-     * @param user Объект User для сохранения.
-     * @return Сохраненный объект User.
+     * @param user Объект UserDTO для сохранения.
+     * @return Сохраненный объект UserDTO.
      */
     User save(User user);
 
-    ru.skypro.homework.dto.users.User findDTOUserByEmail(String email);
+    UserDTO findDTOUserByEmail(String email);
 
     /**
      * Находит пользователя по его email.
      *
      * @param email Email пользователя.
-     * @return Объект User, представляющий найденного пользователя.
+     * @return Объект UserDTO, представляющий найденного пользователя.
      */
     User findUserByEmail(String email);
 
     /**
      * Обновляет информацию о пользователе.
      *
-     * @param user  Объект User с обновленными данными.
+     * @param user  Объект UserDTO с обновленными данными.
      * @param email Email пользователя.
-     * @return Обновленный объект User.
+     * @return Обновленный объект UserDTO.
      */
     UpdateUser update(UpdateUser user, String email);
 

@@ -5,7 +5,7 @@ import lombok.Data;
  * Класс DTO для объявления.
  */
 @Data
-public class Ad {
+public class AdDTO {
     /**
      * Уникальный идентификатор объявления.
      */

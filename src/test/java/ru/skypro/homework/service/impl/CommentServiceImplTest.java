@@ -6,17 +6,16 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mapstruct.control.MappingControl;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.ContextConfiguration;
+import ru.skypro.homework.dto.comments.CommentDTO;
 import ru.skypro.homework.dto.comments.Comments;
 import ru.skypro.homework.dto.comments.CreateOrUpdateComment;
 import ru.skypro.homework.entity.Ad;
 import ru.skypro.homework.entity.Comment;
 import ru.skypro.homework.entity.User;
-import ru.skypro.homework.enums.Role;
 import ru.skypro.homework.mapper.CommentMapper;
 import ru.skypro.homework.repository.CommentRepository;
 import ru.skypro.homework.service.AdService;
@@ -97,7 +96,7 @@ class CommentServiceImplTest {
         // Создание тестовых данных
         com1.setCreatedAt(createdAt);
         com1.setUser(user);
-        ru.skypro.homework.dto.comments.Comment commentDTO = new ru.skypro.homework.dto.comments.Comment();
+        CommentDTO commentDTO = new CommentDTO();
         commentDTO.setAuthorFirstName(com1.getUser().getFirstName());
         commentDTO.setText(com1DTO.getText());
         commentDTO.setCreatedAt(com1.getCreatedAt());
@@ -122,10 +121,10 @@ class CommentServiceImplTest {
     @DisplayName("Тестирование создания комментария - неуспешный случай")
     void createComment_unsuccessful() {
         // Вызываем метод создания комментария
-        ru.skypro.homework.dto.comments.Comment savedComment = commentService.createComment(com1DTO, ad1.getPk(), user.getEmail());
+        CommentDTO savedCommentDTO = commentService.createComment(com1DTO, ad1.getPk(), user.getEmail());
 
         // Проверка, что комментарий не был создан
-        assertNull(savedComment);
+        assertNull(savedCommentDTO);
         verify(commentRepository, times(0)).save(any(Comment.class));
     }
     @Test
@@ -165,23 +164,23 @@ class CommentServiceImplTest {
         // Создаем тестовые данные
         com1.setAd(ad1);
         com1.setUser(user);
-        ru.skypro.homework.dto.comments.Comment updatedComment = new ru.skypro.homework.dto.comments.Comment();
-        updatedComment.setAuthorFirstName(com1.getUser().getFirstName());
-        updatedComment.setText(com1DTO.getText());
-        updatedComment.setCreatedAt(com1.getCreatedAt());
+        CommentDTO updatedCommentDTO = new CommentDTO();
+        updatedCommentDTO.setAuthorFirstName(com1.getUser().getFirstName());
+        updatedCommentDTO.setText(com1DTO.getText());
+        updatedCommentDTO.setCreatedAt(com1.getCreatedAt());
 
         // Устанавливаем ожидаемое поведение
         when(commentRepository.findById(any(Integer.class))).thenReturn(Optional.of(com1));
         when(adService.findAdById(any(Integer.class))).thenReturn(ad1);
-        when(commentMapper.toDtoComment(any(Comment.class))).thenReturn(updatedComment);
+        when(commentMapper.toDtoComment(any(Comment.class))).thenReturn(updatedCommentDTO);
         when(commentRepository.save(any(Comment.class))).thenReturn(com1);
 
         // Вызываем метод обновления комментария
-        updatedComment = commentService.updateComment(com1DTO, ad1.getPk(), com1.getPk(), user.getEmail());
+        updatedCommentDTO = commentService.updateComment(com1DTO, ad1.getPk(), com1.getPk(), user.getEmail());
 
         // Проверяем, что комментарий был обновлен успешно
-        assertNotNull(updatedComment);
-        assertEquals(updatedComment.getText(), com1DTO.getText());
+        assertNotNull(updatedCommentDTO);
+        assertEquals(updatedCommentDTO.getText(), com1DTO.getText());
         verify(commentRepository, times(1)).findById(com1.getPk());
         verify(commentRepository, times(1)).save(com1);
     }
@@ -189,7 +188,7 @@ class CommentServiceImplTest {
     @DisplayName("Тестирование обновления комментария по id - неуспешный случай")
     void updateComment_unsuccessful() {
         // Создаем тестовые данные
-        ru.skypro.homework.dto.comments.Comment updatedComment = null;
+        CommentDTO updatedCommentDTO = null;
         com1.setAd(ad1);
         com2.setAd(ad2);
 
@@ -198,10 +197,10 @@ class CommentServiceImplTest {
         when(adService.findAdById(any(Integer.class))).thenReturn(ad2);
 
         // Вызываем метод обновления комментария
-        updatedComment = commentService.updateComment(com1DTO, ad1.getPk(), com1.getPk(), user.getEmail());
+        updatedCommentDTO = commentService.updateComment(com1DTO, ad1.getPk(), com1.getPk(), user.getEmail());
 
         // Проверяем, что комментарий не был обновлен
-        assertNull(updatedComment);
+        assertNull(updatedCommentDTO);
         verify(commentRepository, times(1)).findById(com1.getPk());
         verify(commentRepository, times(0)).save(com1);
     }

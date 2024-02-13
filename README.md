@@ -85,12 +85,12 @@ BackEnd сайта по продаже товаров
 
 ```java
 public static Ad randomTestDataAd() {
-        Ad ad = new Ad();
+        Ad adDTO = new Ad();
         Faker faker = new Faker();
-        ad.setPk(Math.toIntExact(faker.number().randomNumber()));
-        ad.setImage(generateRandomImage());
-        ad.setTitle(faker.lorem().sentence());
-        return ad;
+        adDTO.setPk(Math.toIntExact(faker.number().randomNumber()));
+        adDTO.setImage(generateRandomImage());
+        adDTO.setTitle(faker.lorem().sentence());
+        return adDTO;
         }
 ```
 #### 2. Класс с реализацией интерфейса UserDetailsService из Spring Security для загрузки пользовательских данных из базы данных PostgreSQL по их электронной почте при аутентификации пользователей:

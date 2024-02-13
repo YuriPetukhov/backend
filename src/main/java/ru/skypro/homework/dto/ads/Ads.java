@@ -17,7 +17,7 @@ public class Ads {
     /**
      * Список объявлений.
      */
-    private List<Ad> results;
+    private List<AdDTO> results;
 
     /**
      * Конструктор для создания объекта Ads с указанным количеством и списком объявлений.
@@ -25,7 +25,7 @@ public class Ads {
      * @param count Количество объявлений.
      * @param results Список объявлений.
      */
-    public Ads(Integer count, List<Ad> results) {
+    public Ads(Integer count, List<AdDTO> results) {
         this.count = count;
         this.results = results;
     }

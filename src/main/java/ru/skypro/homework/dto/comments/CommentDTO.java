@@ -5,7 +5,7 @@ import lombok.Data;
  * Класс DTO для комментария.
  */
 @Data
-public class Comment {
+public class CommentDTO {
     /**
      * Уникальный идентификатор автора комментария.
      */

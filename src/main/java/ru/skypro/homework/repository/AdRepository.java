@@ -5,7 +5,7 @@ import ru.skypro.homework.entity.Ad;
 import ru.skypro.homework.entity.Image;
 
 /**
- * Репозиторий для работы с объявлениями (Ad).
+ * Репозиторий для работы с объявлениями (AdDTO).
  */
 public interface AdRepository extends JpaRepository<Ad, Integer> {
 }

@@ -2,7 +2,7 @@ package ru.skypro.homework.controller;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import ru.skypro.homework.dto.comments.Comment;
+import ru.skypro.homework.dto.comments.CommentDTO;
 import ru.skypro.homework.dto.comments.Comments;
 import ru.skypro.homework.dto.comments.CreateOrUpdateComment;
 import io.swagger.v3.oas.annotations.Operation;
@@ -51,14 +51,14 @@ public class CommentController {
      */
     @PostMapping(value = "/{id}/comments", produces = APPLICATION_JSON_VALUE)
     @Operation(summary = "Добавление комментария к объявлению")
-    public ResponseEntity<Comment> createAdComment(@PathVariable("id") Integer id,
-                                                   @RequestBody(required = false) CreateOrUpdateComment text,
-                                                   Authentication authentication) {
+    public ResponseEntity<CommentDTO> createAdComment(@PathVariable("id") Integer id,
+                                                      @RequestBody(required = false) CreateOrUpdateComment text,
+                                                      Authentication authentication) {
         log.info("Отправляем параметры в сервис для создания комментария пользователя {}", authentication.getName());
-        Comment comment = commentService.createComment(text, id, authentication.getName());
+        CommentDTO commentDTO = commentService.createComment(text, id, authentication.getName());
         return
-                comment != null ?
-                        ResponseEntity.status(HttpStatus.CREATED).body(comment) :
+                commentDTO != null ?
+                        ResponseEntity.status(HttpStatus.CREATED).body(commentDTO) :
                         ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
     }
 
@@ -95,14 +95,14 @@ public class CommentController {
     @PatchMapping(value = "/{adId}/comments/{commentId}", produces = APPLICATION_JSON_VALUE)
     @PreAuthorize(value = "hasRole('ADMIN') or @commentServiceImpl.isAuthorComment(authentication.getName(), #commentId)")
     @Operation(summary = "Обновление комментария")
-    public ResponseEntity<Comment> updateAdComment(@PathVariable("adId") Integer adId,
-                                                   @PathVariable("commentId") Integer commentId,
-                                                   @RequestBody(required = false) CreateOrUpdateComment createOrUpdateComment,
-                                                   Authentication authentication) {
+    public ResponseEntity<CommentDTO> updateAdComment(@PathVariable("adId") Integer adId,
+                                                      @PathVariable("commentId") Integer commentId,
+                                                      @RequestBody(required = false) CreateOrUpdateComment createOrUpdateComment,
+                                                      Authentication authentication) {
         log.info("Отправляем параметры в сервис для изменения комментария объявления {}", adId);
-        Comment comment = commentService.updateComment(createOrUpdateComment, adId, commentId, authentication.getName());
-        return comment != null ?
-                ResponseEntity.status(HttpStatus.CREATED).body(comment) :
+        CommentDTO commentDTO = commentService.updateComment(createOrUpdateComment, adId, commentId, authentication.getName());
+        return commentDTO != null ?
+                ResponseEntity.status(HttpStatus.CREATED).body(commentDTO) :
                 ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 }

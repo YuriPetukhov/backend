@@ -3,6 +3,7 @@ package ru.skypro.homework.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.skypro.homework.dto.comments.CommentDTO;
 import ru.skypro.homework.dto.comments.Comments;
 import ru.skypro.homework.dto.comments.CreateOrUpdateComment;
 import ru.skypro.homework.entity.Ad;
@@ -41,7 +42,7 @@ public class CommentServiceImpl implements CommentService {
     public Comments getAllAdComments(Integer id) {
         log.info("Получаем и возвращаем список всех комментариев");
         List<Comment> comments = commentRepository.findAllByAdPk(id);
-        List<ru.skypro.homework.dto.comments.Comment> results = comments.stream()
+        List<CommentDTO> results = comments.stream()
                 .map(commentMapper::toDtoComment)
                 .collect(Collectors.toList());
         return new Comments(results.size(), results);
@@ -56,7 +57,7 @@ public class CommentServiceImpl implements CommentService {
      * @return Созданный комментарий или null, если объявление не найдено.
      */
     @Override
-    public ru.skypro.homework.dto.comments.Comment createComment(CreateOrUpdateComment text, Integer pk, String email) {
+    public CommentDTO createComment(CreateOrUpdateComment text, Integer pk, String email) {
         log.info("Создаем комментарий пользователя {} и возвращаем объект DTO", email);
         Ad ad = adService.findAdById(pk);
         User user = userService.findUserByEmail(email);
@@ -99,7 +100,7 @@ public class CommentServiceImpl implements CommentService {
      * @return Обновленный комментарий или null, если комментарий не найден или не относится к указанному объявлению.
      */
     @Override
-    public ru.skypro.homework.dto.comments.Comment updateComment(CreateOrUpdateComment createOrUpdateComment, Integer adId, Integer commentId, String email) {
+    public CommentDTO updateComment(CreateOrUpdateComment createOrUpdateComment, Integer adId, Integer commentId, String email) {
         log.info("Обновляем комментарий по id {} пользователя {} и возвращаем объект DTO", commentId, email);
         return commentRepository.findById(commentId)
                 .filter(comment -> comment.getAd().equals(adService.findAdById(adId)))

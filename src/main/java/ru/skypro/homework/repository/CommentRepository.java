@@ -6,15 +6,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 /**
- * Репозиторий для работы с комментариями (Comment).
+ * Репозиторий для работы с комментариями (CommentDTO).
  */
 public interface CommentRepository extends JpaRepository<Comment, Integer> {
 
     /**
-     * Находит все комментарии (Comment) по идентификатору объявления (pk).
+     * Находит все комментарии (CommentDTO) по идентификатору объявления (pk).
      *
      * @param pk Идентификатор объявления, для которого производится поиск комментариев.
-     * @return Список найденных комментариев (Comment).
+     * @return Список найденных комментариев (CommentDTO).
      */
     List<Comment> findAllByAdPk(Integer pk);
 }

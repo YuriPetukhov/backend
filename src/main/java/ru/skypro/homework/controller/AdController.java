@@ -2,6 +2,7 @@ package ru.skypro.homework.controller;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import ru.skypro.homework.dto.ads.AdDTO;
 import ru.skypro.homework.dto.ads.Ads;
 import ru.skypro.homework.dto.ads.CreateOrUpdateAd;
 import ru.skypro.homework.dto.ads.ExtendedAd;
@@ -98,12 +99,12 @@ public class AdController {
     @PatchMapping(value = "/{id}", produces = APPLICATION_JSON_VALUE)
     @PreAuthorize(value = "hasRole('ADMIN') or @adServiceImpl.isAuthorAd(authentication.getName(), #id)")
     @Operation(summary = "Обновление информации об объявлении")
-    public ResponseEntity<ru.skypro.homework.dto.ads.Ad> updateAdInfo(@PathVariable("id") Integer id,
-                                           @RequestBody(required = false) CreateOrUpdateAd createOrUpdateAd) {
+    public ResponseEntity<AdDTO> updateAdInfo(@PathVariable("id") Integer id,
+                                              @RequestBody(required = false) CreateOrUpdateAd createOrUpdateAd) {
         log.info("Отправляем параметры в сервис для обновления объявления {}", id);
-        ru.skypro.homework.dto.ads.Ad ad = adService.updateAd(createOrUpdateAd, id);
-        return ad != null ?
-                ResponseEntity.ok(ad) :
+        AdDTO adDTO = adService.updateAd(createOrUpdateAd, id);
+        return adDTO != null ?
+                ResponseEntity.ok(adDTO) :
                 ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 

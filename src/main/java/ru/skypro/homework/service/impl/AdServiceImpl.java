@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import ru.skypro.homework.dto.ads.AdDTO;
 import ru.skypro.homework.dto.ads.Ads;
 import ru.skypro.homework.dto.ads.CreateOrUpdateAd;
 import ru.skypro.homework.dto.ads.ExtendedAd;
@@ -42,7 +43,7 @@ public class AdServiceImpl implements AdService {
     public Ads getAllAds() {
         log.info("Получаем и возвращаем список всех объявлений");
         List<ru.skypro.homework.entity.Ad> allAds = adRepository.findAll();
-         List <ru.skypro.homework.dto.ads.Ad> results = allAds.stream()
+         List <AdDTO> results = allAds.stream()
                 .map(adMapper::toDtoAd)
                 .collect(Collectors.toList());
         return new Ads(results.size(), results);
@@ -69,7 +70,7 @@ public class AdServiceImpl implements AdService {
      * Получает информацию об объявлении по его идентификатору.
      *
      * @param id Идентификатор объявления.
-     * @return Объект Ad, представляющий информацию об объявлении.
+     * @return Объект AdDTO, представляющий информацию об объявлении.
      */
     @Override
     public ExtendedAd getAdInfo(Integer id) {
@@ -98,12 +99,12 @@ public class AdServiceImpl implements AdService {
     /**
      * Обновляет информацию об объявлении.
      *
-     * @param createOrUpdateAd Объект Ad с обновленными данными.
+     * @param createOrUpdateAd Объект AdDTO с обновленными данными.
      * @param id       Идентификатор объявления.
      * @return Обновленное объявление.
      */
     @Override
-    public ru.skypro.homework.dto.ads.Ad updateAd(CreateOrUpdateAd createOrUpdateAd, Integer id) {
+    public AdDTO updateAd(CreateOrUpdateAd createOrUpdateAd, Integer id) {
         log.info("Обновляем объявление по id {} и возвращаем объект DTO", id);
         return adRepository.findById(id)
                 .map(ad -> {
@@ -119,7 +120,7 @@ public class AdServiceImpl implements AdService {
      * Находит объявление по его идентификатору.
      *
      * @param id Идентификатор объявления.
-     * @return Объект Ad, представляющий найденное объявление.
+     * @return Объект AdDTO, представляющий найденное объявление.
      */
     @Override
     public Ad findAdById(Integer id) {
@@ -137,10 +138,10 @@ public class AdServiceImpl implements AdService {
     public Ads getAuthUserAds(String email) {
         log.info("Находим и возвращаем список объявлений авторизованного пользователя {}", email);
         List<Ad> results = userService.findUserByEmail(email).getAds();
-        List<ru.skypro.homework.dto.ads.Ad> userAds = results.stream()
+        List<AdDTO> userAdDTOS = results.stream()
                 .map(adMapper::toDtoAd)
                 .collect(Collectors.toList());
-        return new Ads(results.size(), userAds);
+        return new Ads(results.size(), userAdDTOS);
     }
 
     /**
@@ -155,7 +156,7 @@ public class AdServiceImpl implements AdService {
         log.info("Обновляем картинку объявления {}", id);
         String newImage = fileStorageService.saveFile(multipartFile);
         Ad ad = findAdById(id);
-        Image image = null;
+        Image image;
         if (ad != null && ad.getImage() != null) {
             image = ad.getImage();
             fileStorageService.deleteFile(image.getPath());
