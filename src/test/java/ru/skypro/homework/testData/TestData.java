@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.mockito.Mockito;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
+import ru.skypro.homework.dto.ads.AdDTO;
 import ru.skypro.homework.dto.ads.CreateOrUpdateAd;
 import ru.skypro.homework.dto.ads.ExtendedAd;
 import ru.skypro.homework.dto.comments.CreateOrUpdateComment;
@@ -52,8 +53,8 @@ public class TestData {
         extendedAd.setAuthorLastName(faker.name().lastName());
         return extendedAd;
     }
-    public static ru.skypro.homework.dto.ads.Ad randomTestDataAdDTO() {
-        ru.skypro.homework.dto.ads.Ad adDTO = new ru.skypro.homework.dto.ads.Ad();
+    public static AdDTO randomTestDataAdDTO() {
+        AdDTO adDTO = new AdDTO();
         Faker faker = new Faker();
         adDTO.setPk(Math.toIntExact(faker.number().randomNumber()));
         adDTO.setImage(faker.file().fileName());

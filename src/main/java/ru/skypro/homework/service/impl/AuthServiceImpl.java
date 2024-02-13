@@ -52,7 +52,7 @@ public class AuthServiceImpl implements AuthService {
     /**
      * Регистрирует нового пользователя.
      *
-     * @param register Объект User с информацией о новом пользователе.
+     * @param register Объект UserDTO с информацией о новом пользователе.
      * @return true, если регистрация прошла успешно, false в противном случае.
      */
     @Override

@@ -1,5 +1,8 @@
 package ru.skypro.homework.mapper;
 
+import ru.skypro.homework.dto.security.Register;
+import ru.skypro.homework.dto.users.UpdateUser;
+import ru.skypro.homework.dto.users.UserDTO;
 import ru.skypro.homework.entity.User;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
@@ -7,7 +10,7 @@ import org.mapstruct.Mapping;
 
 
 /**
- * Интерфейс, отвечающий за преобразование объектов пользователей (User) между различными типами:
+ * Интерфейс, отвечающий за преобразование объектов пользователей (UserDTO) между различными типами:
  * - между объектами DTO и сущностями (Entity).
  */
 @Mapper(componentModel = "spring")
@@ -19,17 +22,17 @@ public interface UserMapper {
      * @param user Сущность (Entity) пользователя.
      * @return Объект DTO обновления пользователя.
      */
-    ru.skypro.homework.dto.users.UpdateUser toDtoUpdateUser(User user);
+    UpdateUser toDtoUpdateUser(User user);
 
     /**
-     * Преобразует сущность (Entity) пользователя в объект DTO пользователя (User).
+     * Преобразует сущность (Entity) пользователя в объект DTO пользователя (UserDTO).
      *
      * @param user Сущность (Entity) пользователя.
      * @return Объект DTO пользователя.
      */
     @InheritInverseConfiguration
     @Mapping(source = "image.path", target = "image")
-    ru.skypro.homework.dto.users.User toDtoUser(User user);
+    UserDTO toDtoUser(User user);
 
     /**
      * Преобразует объект регистрации пользователя (Register) из объекта DTO в сущность (Entity) пользователя.
@@ -39,7 +42,7 @@ public interface UserMapper {
      */
     @Mapping(source = "username", target = "email")
     @Mapping(source = "password", target = "userAuthentication.passwordHash")
-    User toEntityUser(ru.skypro.homework.dto.security.Register dto);
+    User toEntityUser(Register dto);
 
 }
 

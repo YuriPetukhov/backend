@@ -11,7 +11,7 @@ CREATE TABLE images (
 -- Создание таблицы "users" для хранения информации о пользователях
 CREATE TABLE users (
   id SERIAL PRIMARY KEY, -- Уникальный идентификатор пользователя
-  email VARCHAR(320), -- Адрес электронной почты пользователя
+  email VARCHAR(255), -- Адрес электронной почты пользователя
   first_name VARCHAR(60), -- Имя пользователя
   last_name VARCHAR(60), -- Фамилия пользователя
   phone VARCHAR(20), -- Номер телефона пользователя

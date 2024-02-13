@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.security.NewPassword;
 import ru.skypro.homework.dto.users.UpdateUser;
-import ru.skypro.homework.dto.users.User;
+import ru.skypro.homework.dto.users.UserDTO;
 import ru.skypro.homework.service.UserAuthenticationService;
 import ru.skypro.homework.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -66,9 +66,9 @@ public class UserController {
      */
     @GetMapping(value = "/me", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Получение информации об авторизованном пользователе")
-    public ResponseEntity<User> getUser(Authentication authentication) {
+    public ResponseEntity<UserDTO> getUser(Authentication authentication) {
         log.info("Отправляем параметры в сервис для получения информации пользователя {}", authentication.getName());
-        User userDTO = userService.findDTOUserByEmail(authentication.getName());
+        UserDTO userDTO = userService.findDTOUserByEmail(authentication.getName());
         return userDTO != null ?
                 ResponseEntity.ok(userDTO) :
                 ResponseEntity.status(HttpStatus.NOT_FOUND).build();

@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.web.multipart.MultipartFile;
+import ru.skypro.homework.dto.ads.AdDTO;
 import ru.skypro.homework.dto.ads.Ads;
 import ru.skypro.homework.dto.ads.CreateOrUpdateAd;
 import ru.skypro.homework.dto.ads.ExtendedAd;
@@ -56,7 +57,7 @@ class AdServiceImplTest {
     private MultipartFile multipartFile;
     private Image image;
     private ExtendedAd extendedAd;
-    private ru.skypro.homework.dto.ads.Ad adDTO;
+    private AdDTO adDTO;
 
     @BeforeEach
     void init() {
@@ -226,10 +227,10 @@ class AdServiceImplTest {
         when(adRepository.findById(any(Integer.class))).thenReturn(Optional.empty());
 
         // Вызываем метод обновления объявления
-        ru.skypro.homework.dto.ads.Ad updatedAd = adService.updateAd(adMapper.toDtoCreateOrUpdateAd(ad1), ad1.getPk());
+        AdDTO updatedAdDTO = adService.updateAd(adMapper.toDtoCreateOrUpdateAd(ad1), ad1.getPk());
 
         // Проверяем, что объявление не было обновлено
-        assertNull(updatedAd);
+        assertNull(updatedAdDTO);
         verify(adRepository, never()).save(any(Ad.class));
     }
 

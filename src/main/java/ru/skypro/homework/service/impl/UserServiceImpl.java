@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.users.UpdateUser;
+import ru.skypro.homework.dto.users.UserDTO;
 import ru.skypro.homework.entity.Image;
 import ru.skypro.homework.entity.User;
 import ru.skypro.homework.mapper.UserMapper;
@@ -46,7 +47,7 @@ public class UserServiceImpl implements UserService {
      * @return Найденный пользователь или null, если пользователь не найден.
      */
     @Override
-    public ru.skypro.homework.dto.users.User findDTOUserByEmail(String email) {
+    public UserDTO findDTOUserByEmail(String email) {
         log.info("Находим и возвращаем объект DTO пользователя по email {}", email);
         Optional<User> user = userRepository.findUserByEmail(email);
         return user.map(userMapper::toDtoUser).orElse(null);

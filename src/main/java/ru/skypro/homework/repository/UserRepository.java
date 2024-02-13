@@ -6,15 +6,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 /**
- * Репозиторий для работы с пользователями (User).
+ * Репозиторий для работы с пользователями (UserDTO).
  */
 public interface UserRepository extends JpaRepository<User, Integer> {
 
     /**
-     * Находит пользователя (User) по адресу электронной почты (email).
+     * Находит пользователя (UserDTO) по адресу электронной почты (email).
      *
      * @param email Адрес электронной почты, по которому производится поиск.
-     * @return Найденный пользователь (User) в виде объекта Optional, который может содержать null, если пользователь не найден.
+     * @return Найденный пользователь (UserDTO) в виде объекта Optional, который может содержать null, если пользователь не найден.
      */
     Optional<User> findUserByEmail(String email);
 
