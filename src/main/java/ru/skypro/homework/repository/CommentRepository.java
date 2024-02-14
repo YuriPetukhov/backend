@@ -11,10 +11,10 @@ import java.util.List;
 public interface CommentRepository extends JpaRepository<Comment, Integer> {
 
     /**
-     * Находит все комментарии (CommentDTO) по идентификатору объявления (pk).
+     * Находит все комментарии (Comment) по идентификатору объявления (pk).
      *
      * @param pk Идентификатор объявления, для которого производится поиск комментариев.
-     * @return Список найденных комментариев (CommentDTO).
+     * @return Список найденных комментариев (Comment).
      */
     List<Comment> findAllByAdPk(Integer pk);
 }
